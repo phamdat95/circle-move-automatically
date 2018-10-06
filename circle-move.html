@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button onclick="move()">Start</button><br>
+<canvas id="myCanvas" height="600px" width="600px" style="border: 1px solid #000000;"></canvas>
+<script>
+    var canvas = document.getElementById('myCanvas');
+    var Circle = function (x, y, radius, color) {
+        this.x=x;
+        this.y=y;
+        this.radius=radius;
+        this.color=color;
+        this.direction=1;
+
+        this.render=function (canvas) {
+            var context = canvas.getContext('2d');
+            context.clearRect(0,0,600,600);
+            context.beginPath();
+            context.arc(this.x,this.y,this.radius,0,2*Math.PI);
+            context.fillStyle=this.color;
+            context.fill();
+        };
+
+        this.move = function () {
+            if(this.direction===1){
+                this.x += 10;
+            if(this.x >= 600 - this.radius)
+                this.direction = 2;
+            } else this.x -= 10;
+            if (this.x < this.radius)
+                this.direction=1;
+        };
+    };
+
+    var circle = new Circle(20,400,20,'yellow');
+    circle.render(canvas);
+
+    function move() {
+        setInterval(function () {
+            circle.render(canvas);
+            circle.move();
+        },10);
+    }
+</script>
+</body>
+</html>
